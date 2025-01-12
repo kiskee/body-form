@@ -7,12 +7,20 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {useState } from 'react'
+import SingInDialog from "./SingIngDialog";
+import { UserDetailContext } from "@/context/UserDetailContext";
+
 
 
 export default function Hero() {
   const [openDialog, setOpenDialog] = useState(false)
-
-
+  const [userDetail, setUserDetail] = useState(UserDetailContext)
+  const onSubmit = () => {
+    if (!userDetail?.name){
+      setOpenDialog(true)
+      return
+    }
+  }
 
   const muscles = [
     "Pectoralis major",
@@ -71,7 +79,8 @@ export default function Hero() {
           ))}
         </SelectContent>
       </Select>
-      <Button className="bg-lime-500 text-white m-4 mt-8">Submit</Button>
+      <Button className="bg-lime-500 text-white m-4 mt-8"   onClick={onSubmit}>Submit</Button>
+      <SingInDialog openDialog={openDialog} closeDialog={(v) => setOpenDialog(v)} />
     </div>
   );
 }
