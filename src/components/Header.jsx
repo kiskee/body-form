@@ -1,8 +1,20 @@
 import { Button } from "@/components/ui/button";
 import logo from "../assets/logo.png";
 import { Link } from 'react-router-dom';
+import {useState } from 'react'
+import SingInDialog from "./SingIngDialog";
+import { UserDetailContext } from "@/context/UserDetailContext";
 
 export default function Header() {
+  const [openDialog, setOpenDialog] = useState(false)
+  const [userDetail, setUserDetail] = useState(UserDetailContext)
+  const onSubmit = () => {
+    if (!userDetail?.name){
+      setOpenDialog(true)
+      return
+    }
+  }
+
   return (
     <header className="bg-black text-white shadow-lg w-full border-b border-lime-400 border-opacity-60">
       <div className="container mx-auto  flex items-center justify-between md:flex-col sm:flex-col ss:flex-col md:justify-center">
@@ -34,15 +46,16 @@ export default function Header() {
         <nav>
           <ul className="flex space-x-4 flex-row ss:flex-col ss:space-4 ss:text-center">
             
-            <Button className="bg-black text-white">
+            <Button className="bg-black text-white" onClick={onSubmit}>
               <Link href="/login">Sing In</Link>
             </Button>
-            <Button className="bg-lime-600 text-white">
+            <Button className="bg-lime-600 text-white" onClick={onSubmit}>
               <Link href="/login">Get Started</Link>
             </Button>
           </ul>
         </nav>
       </div>
+      <SingInDialog openDialog={openDialog} closeDialog={(v) => setOpenDialog(v)} />
     </header>
   );
 }
