@@ -16,10 +16,10 @@ export default function Header() {
   }
 
   return (
-    <header className="bg-black text-white shadow-lg w-full border-b border-lime-400 border-opacity-60">
+    <header className="bg-black text-white shadow-lg w-full border-b border-lime-400 border-opacity-60 ss:pb-4">
       <div className="container mx-auto  flex items-center justify-between md:flex-col sm:flex-col ss:flex-col md:justify-center">
         {/* Título */}
-        <div className="flex items-center relative z-10">
+        <div className="flex items-center relative z-10 ss:flex-col">
           <img
             src={logo}
             alt="EthLand Logo"
