@@ -4,18 +4,39 @@ import { createContext, useState, useEffect } from "react";
 export const UserDetailContext = createContext();
 
 export const UserDetailProvider = ({ children }) => {
-  // Inicializa el estado con datos de localStorage si están disponibles
   const [userDetail, setUserDetail] = useState(() => {
     const storedUser = localStorage.getItem("userDetail");
-    return storedUser ? JSON.parse(storedUser) : null;
+    const storedToken = localStorage.getItem("authToken");
+
+    if (storedUser && storedToken) {
+      const { token, expiresAt } = JSON.parse(storedToken);
+      const now = new Date().getTime();
+
+      if (now < expiresAt) {
+        return { ...JSON.parse(storedUser), token };
+      } else {
+        // Token expirado
+        localStorage.removeItem("userDetail");
+        localStorage.removeItem("authToken");
+      }
+    }
+
+    return null;
   });
 
-  // Guarda los datos en localStorage cuando cambien
   useEffect(() => {
     if (userDetail) {
       localStorage.setItem("userDetail", JSON.stringify(userDetail));
+      localStorage.setItem(
+        "authToken",
+        JSON.stringify({
+          token: userDetail.token,
+          expiresAt: new Date().getTime() + 60 * 60 * 1000, // 60 minutos
+        })
+      );
     } else {
       localStorage.removeItem("userDetail");
+      localStorage.removeItem("authToken");
     }
   }, [userDetail]);
 

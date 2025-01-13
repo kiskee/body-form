@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import {useState } from 'react'
+import {useState, useContext } from 'react'
 import SingInDialog from "./SingIngDialog";
 import { UserDetailContext } from "@/context/UserDetailContext";
 
@@ -14,7 +14,7 @@ import { UserDetailContext } from "@/context/UserDetailContext";
 
 export default function Hero() {
   const [openDialog, setOpenDialog] = useState(false)
-  const [userDetail, setUserDetail] = useState(UserDetailContext)
+  const { userDetail, setUserDetail } = useContext(UserDetailContext);
   const onSubmit = () => {
     if (!userDetail?.name){
       setOpenDialog(true)

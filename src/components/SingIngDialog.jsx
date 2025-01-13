@@ -4,31 +4,45 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useGoogleLogin } from "@react-oauth/google";
 import { useContext } from "react";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import axios from "axios";
+import {apiService} from '../services/apiService'
 
 export default function SingInDialog({ openDialog, closeDialog }) {
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
 
   const googleLogin = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log(tokenResponse);
-      const userInfo = await axios.get(
-        "https://www.googleapis.com/oauth2/v3/userinfo",
-        { headers: { Authorization: "Bearer " + tokenResponse?.access_token } }
-      );
-
-      console.log(userInfo);
-      setUserDetail(userInfo?.data);
-      closeDialog(false);
+      try {
+        console.log(tokenResponse);
+        const userInfo = await axios.get(
+          "https://www.googleapis.com/oauth2/v3/userinfo",
+          { headers: { Authorization: "Bearer " + tokenResponse?.access_token } }
+        );
+  
+        console.log(userInfo);
+        const user = userInfo.data;
+  
+        // Enviar el login y obtener el JWT
+        const login = await apiService.post("/auth/login", user);
+  
+        // Guardar en el estado y localStorage
+        setUserDetail({
+          ...user,
+          token: login.accessToken, // Suponiendo que tu API devuelve el token como `jwtToken`
+        });
+        closeDialog(false);
+      } catch (error) {
+        console.error("Error during login", error);
+      }
     },
     onError: (errorResponse) => console.log(errorResponse),
   });
+  
 
   return (
     <Dialog open={openDialog} onOpenChange={closeDialog} className="bg-white ">

@@ -11,7 +11,6 @@ const handleResponse = async (response) => {
 export const apiService = {
   get: async (url, headers = {}) => {
     const response = await fetch(`${BASE_URL}${url}`, {
-      mode: "no-cors",
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -23,25 +22,23 @@ export const apiService = {
 
   post: async (url, body, headers = {}) => {
     try {
-        const response = await fetch(`${BASE_URL}${url}`, {
-            mode: "no-cors",
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              ...headers,
-            },
-            body: JSON.stringify(body),
-          });
-          console.log(response)
-          return handleResponse(response);
+      const response = await fetch(`${BASE_URL}${url}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          ...headers,
+        },
+        body: JSON.stringify(body),
+      });
+      console.log(response);
+      return handleResponse(response);
     } catch (error) {
-        console.log(error)
+      console.log(error);
     }
   },
 
   put: async (url, body, headers = {}) => {
     const response = await fetch(`${BASE_URL}${url}`, {
-      mode: "no-cors",
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -54,7 +51,6 @@ export const apiService = {
 
   delete: async (url, headers = {}) => {
     const response = await fetch(`${BASE_URL}${url}`, {
-      mode: "no-cors",
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
