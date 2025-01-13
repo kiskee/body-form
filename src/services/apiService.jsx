@@ -8,6 +8,24 @@ const handleResponse = async (response) => {
   return response.json();
 };
 
+const getToken = () => localStorage.getItem("jwtToken");
+
+const isTokenValid = (token) => {
+  if (!token) return false;
+
+  try {
+    const [, payload] = token.split(".");
+    if (!payload) return false;
+
+    const decodedPayload = JSON.parse(atob(payload));
+    const currentTime = Math.floor(Date.now() / 1000);
+
+    return decodedPayload.exp && decodedPayload.exp > currentTime;
+  } catch {
+    return false;
+  }
+};
+
 export const apiService = {
   get: async (url, headers = {}) => {
     const response = await fetch(`${BASE_URL}${url}`, {
@@ -30,10 +48,10 @@ export const apiService = {
         },
         body: JSON.stringify(body),
       });
-      console.log(response);
       return handleResponse(response);
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      throw error;
     }
   },
 
@@ -58,5 +76,38 @@ export const apiService = {
       },
     });
     return handleResponse(response);
+  },
+
+  withAuth: async (method, url, body = null, additionalHeaders = {}) => {
+    const token = getToken();
+
+    // Valida si el token es válido
+    if (!isTokenValid(token)) {
+      console.error("Token inválido o expirado. Redirigiendo al login...");
+      window.location.href = "/login"; // Ajusta la redirección según tu aplicación
+      return;
+    }
+
+    const headers = {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+      ...additionalHeaders,
+    };
+
+    // Llama al método correspondiente (GET, POST, etc.)
+    if (method === "GET" || method === "DELETE") {
+      return fetch(`${BASE_URL}${url}`, {
+        method,
+        headers,
+      }).then(handleResponse);
+    } else if (method === "POST" || method === "PUT") {
+      return fetch(`${BASE_URL}${url}`, {
+        method,
+        headers,
+        body: JSON.stringify(body),
+      }).then(handleResponse);
+    } else {
+      throw new Error("Método HTTP no soportado.");
+    }
   },
 };

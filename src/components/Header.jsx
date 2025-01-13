@@ -35,9 +35,7 @@ export default function Header() {
   const onLogOut = () => {
     googleLogout(); // Cierra sesión de Google
     setUserDetail(null); // Limpia el contexto
-    console.log("Sesión cerrada");
   };
-  console.log("acacacacacacacacacacacaca", userDetail);
   return (
     <header className="bg-black text-white shadow-lg w-full border-b border-lime-400 border-opacity-60 ss:pb-4">
       <div className="container mx-auto  flex items-center justify-between md:flex-col sm:flex-col ss:flex-col md:justify-center">
@@ -84,7 +82,7 @@ export default function Header() {
             </ul>
           </nav>
         ) : (
-          <DropdownMenu >
+          <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar className="m-4">
                 <AvatarImage src={userDetail.picture} />
@@ -101,7 +99,12 @@ export default function Header() {
                 <DropdownMenuItem>Keyboard shortcuts</DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onLogOut} className="bg-lime-400 rounded">Log out</DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={onLogOut}
+                className="bg-lime-400 rounded"
+              >
+                Log out
+              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )}
