@@ -1,6 +1,6 @@
 import Header from './Header'
 import Footer from './Footer'
-import { UserDetailContext } from '@/context/UserDetailContext';
+import { UserDetailProvider } from '@/context/UserDetailContext';
 import  {useState} from 'react'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
@@ -9,7 +9,7 @@ export default function Layaut({ children }) {
   // body
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE}>
-      <UserDetailContext.Provider value={{userDetail, setUserDetail}} >
+      <UserDetailProvider >
     <div className="min-h-screen bg-black  flex flex-col ">
       {/* Encabezado con el logo y el título */}
       <Header />
@@ -19,7 +19,7 @@ export default function Layaut({ children }) {
       {/* Pie de página */}
       <Footer />
     </div>
-    </UserDetailContext.Provider>
+    </UserDetailProvider>
     </GoogleOAuthProvider>
   );
 }
