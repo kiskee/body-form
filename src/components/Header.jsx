@@ -16,7 +16,6 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { googleLogout } from "@react-oauth/google";
 import { useNavigate, Link } from "react-router-dom";
 
-
 export default function Header() {
   const [openDialog, setOpenDialog] = useState(false);
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
@@ -81,47 +80,49 @@ export default function Header() {
           </nav>
         ) : (
           <div className="flex flex-row">
-            <nav>
-            <ul className="flex space-x-4 flex-row ss:flex-col ss:space-4 ss:text-center m-6">
-            <Button
-                className="bg-lime-600 text-white"
-                
-              >
-                <Link to="/">Home</Link>
-              </Button>
-            <Button
-                className="bg-lime-600 text-white"
-                
-              >
-                <Link to="/page1">Full List</Link>
-              </Button>
-            </ul>
-          </nav>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Avatar className="m-4">
-                <AvatarImage src={userDetail.picture} />
-                <AvatarFallback>{userDetail.given_name}</AvatarFallback>
-              </Avatar>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56 bg-white">
-              <DropdownMenuLabel>{userDetail.name}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuGroup>
-                <DropdownMenuItem>Profile</DropdownMenuItem>
-                <DropdownMenuItem>Billing</DropdownMenuItem>
-                <DropdownMenuItem>Settings</DropdownMenuItem>
-                <DropdownMenuItem>Keyboard shortcuts</DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={onLogOut}
-                className="bg-lime-400 rounded"
-              >
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+           
+            <DropdownMenu >
+              <DropdownMenuTrigger asChild className="m-6">
+                <Button className="bg-lime-600 text-white">Menu</Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-24 bg-black flex items-center flex-col">
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                <DropdownMenuItem className="bg-white m-2 hover:bg-lime-500">
+                    <Link to="/" >Home</Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem className="bg-white m-2 hover:bg-lime-500">
+                    <Link to="/page1">Full List</Link>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="m-4">
+                  <AvatarImage src={userDetail.picture} />
+                  <AvatarFallback>{userDetail.given_name}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-56 bg-white">
+                <DropdownMenuLabel>{userDetail.name}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Billing</DropdownMenuItem>
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuItem>Keyboard shortcuts</DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  onClick={onLogOut}
+                  className="bg-lime-400 rounded"
+                >
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         )}
       </div>
