@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import exerciseApiService from "@/services/rapidApiBody";
 import { isTokenValid } from "../helpers/tokenValidator";
+import ExerciseDetail from "./ExerciseDetail";
 
 export default function FullAccess() {
   const [activeSection, setActiveSection] = useState("all");
@@ -12,6 +13,7 @@ export default function FullAccess() {
   const [equipment, setEquipment] = useState([]);
   const [targets, setTargets] = useState([]);
   const [selectedFilter, setSelectedFilter] = useState(null);
+  const [selectedExercise, setSelectedExercise] = useState(null);
 
   // Cargar listas de filtros
   useEffect(() => {
@@ -113,8 +115,30 @@ export default function FullAccess() {
     setSelectedFilter(null);
   };
 
+  const handleExerciseClick = (exerciseId) => {
+    setSelectedExercise(exerciseId);
+  };
+
+  const handleCloseDetail = () => {
+    setSelectedExercise(null);
+  };
+
   return (
     <div className="min-h-screen bg-black p-6">
+      {selectedExercise ? (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+            <button
+              onClick={handleCloseDetail}
+              className="absolute top-4 right-4 bg-white rounded-full p-2 text-gray-600 hover:bg-gray-100"
+            >
+              ✕
+            </button>
+            <ExerciseDetail exerciseId={selectedExercise} />
+          </div>
+        </div>
+      ) : null}
+
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-lime-500">
@@ -136,7 +160,7 @@ export default function FullAccess() {
             <input
               type="text"
               placeholder="Search exercises..."
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-lime-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -158,7 +182,7 @@ export default function FullAccess() {
               onClick={() => handleSectionChange(section.id)}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 activeSection === section.id
-                  ? "bg-lime-500 text-white"
+                  ? "bg-blue-500 text-white"
                   : "bg-white text-gray-600 hover:bg-gray-100"
               }`}
             >
@@ -186,7 +210,8 @@ export default function FullAccess() {
             {exercises.map((exercise) => (
               <div
                 key={exercise.id}
-                className="p-4 border rounded-lg hover:shadow-md transition-shadow bg-gray-50"
+                onClick={() => handleExerciseClick(exercise.id)}
+                className="p-4 border rounded-lg hover:shadow-md transition-shadow bg-gray-50 cursor-pointer"
               >
                 <div className="flex items-center space-x-2 mb-3">
                   <span className="text-blue-500 text-lg">💪</span>
@@ -199,7 +224,7 @@ export default function FullAccess() {
                   </div>
                   <div className="flex items-center space-x-2">
                     <span>🏋️‍♂️</span>
-                    <span>Equipament: {exercise.equipment}</span>
+                    <span>Equipment: {exercise.equipment}</span>
                   </div>
                 </div>
               </div>
