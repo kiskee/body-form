@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import logo from "../assets/logo.png";
-import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import SingInDialog from "./SingIngDialog";
 import { UserDetailContext } from "@/context/UserDetailContext";
@@ -10,12 +9,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -38,7 +32,7 @@ export default function Header() {
   };
   return (
     <header className="bg-black text-white shadow-lg w-full border-b border-lime-400 border-opacity-60 ss:pb-4">
-      <div className="container mx-auto  flex items-center justify-between md:flex-col sm:flex-col ss:flex-col md:justify-center">
+      <div className="container mx-auto  flex items-center justify-between md:flex-col sm:flex-col ss:flex-col md:justify-center md:mb-4">
         {/* Título */}
         <div className="flex items-center relative z-10 ss:flex-col">
           <img

@@ -19,7 +19,7 @@ export default function SingInDialog({ openDialog, closeDialog }) {
     onSuccess: async (tokenResponse) => {
       try {
         const userInfo = await axios.get(
-          "https://www.googleapis.com/oauth2/v3/userinfo",
+          import.meta.env.VITE_GOOGLE_SINGIN_URL,
           {
             headers: { Authorization: "Bearer " + tokenResponse?.access_token },
           }
