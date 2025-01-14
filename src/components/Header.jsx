@@ -14,10 +14,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { googleLogout } from "@react-oauth/google";
+import { useNavigate, Link } from "react-router-dom";
+
 
 export default function Header() {
   const [openDialog, setOpenDialog] = useState(false);
   const { userDetail, setUserDetail } = useContext(UserDetailContext);
+  const navigate = useNavigate();
 
   const onSubmit = () => {
     if (!userDetail?.name) {
@@ -29,6 +32,7 @@ export default function Header() {
   const onLogOut = () => {
     googleLogout(); // Cierra sesión de Google
     setUserDetail(null); // Limpia el contexto
+    navigate("/", { replace: true }); // Redirige al inicio
   };
   return (
     <header className="bg-black text-white shadow-lg w-full border-b border-lime-400 border-opacity-60 ss:pb-4">
@@ -76,6 +80,23 @@ export default function Header() {
             </ul>
           </nav>
         ) : (
+          <div className="flex flex-row">
+            <nav>
+            <ul className="flex space-x-4 flex-row ss:flex-col ss:space-4 ss:text-center m-6">
+            <Button
+                className="bg-lime-600 text-white"
+                
+              >
+                <Link to="/">Home</Link>
+              </Button>
+            <Button
+                className="bg-lime-600 text-white"
+                
+              >
+                <Link to="/page1">Full List</Link>
+              </Button>
+            </ul>
+          </nav>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Avatar className="m-4">
@@ -101,6 +122,7 @@ export default function Header() {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
         )}
       </div>
       <SingInDialog

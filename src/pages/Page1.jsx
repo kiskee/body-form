@@ -1,4 +1,6 @@
+import FullAccess from '@/components/FullAccess'
+
 export default function Page1() {
   // body
-return (<><h1 className="text-9xl">Page1</h1></>)
+return (<>< FullAccess/></>)
 }

@@ -6,7 +6,7 @@ export default function Footer() {
         trabajo de mentalidad y actitud positiva. Sigue soñando, sigue
         creyendo.”
       </p>
-      <span className="font-bold text-lime-500 pt-2 right-0 mb-1">
+      <span className="font-bold text-lime-500 pt-2 ml-2 mb-2">
         <a href="https://github.com/kiskee">DanMeCoss</a>
       </span>
     </footer>
